@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyQR Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">MyQR</div>
+        <nav>
+            <div class="user-profile">
+                <img src="{{ user.picture or url_for('static', filename='default_avatar.png') }}" alt="Profile Picture" class="profile-picture">
+                <span class="user-name">{{ user.name }}</span>
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+        </nav>
+    </header>
+    <main class="container">
+        <h1>Welcome, {{ user.name }}!</h1>
+        
+        <form method="POST" class="qr-form">
+            <input type="text" name="link" placeholder="Enter a link for QR code" required>
+            <div class="qr-options">
+                <label>
+                    Fill Color:
+                    <input type="color" name="fill_color" value="#000000">
+                </label>
+                <div class="bg-color-group">
+                    <label>
+                        Background Color:
+                        <input type="color" name="bg_color" value="#ffffff">
+                    </label>
+                    <label class="transparent-checkbox">
+                        <input type="checkbox" name="transparent_bg">
+                        <span class="checkbox-text">Without Background</span>
+                    </label>
+                </div>
+                <label>
+                    Box Size:
+                    <input type="range" name="box_size" min="1" max="50" value="10">
+                </label>
+            </div>
+            <button type="submit">Generate QR Code</button>
+        </form>
+        
+        {% if qr_code %}
+            <div class="qr-container">
+                <h2>Generated QR Code:</h2>
+                <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+                <form action="{{ url_for('download_qr') }}" method="get">
+                    <input type="hidden" name="qr_image" value="{{ qr_code }}">
+                    <button type="submit">Download QR Code</button>
+                </form>
+            </div>
+        {% endif %}
+        
+        <!-- Add this where you want to show the QR code -->
+        {% if qr_image %}
+            <div class="qr-result">
+                <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code" class="qr-image">
+                <div class="download-container">
+                    <a href="data:image/png;base64,{{ qr_image }}" 
+                       download="qr_code.png" 
+                       class="download-button">
+                        <i class="fas fa-download"></i> Download QR Code
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 MyQR. All rights reserved.</p>
+            <p>Made with <span class="heart">&#10084;</span> by Mohammed Alsaleh</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/mohammed-alsaleh-326496318?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://x.com/iimoh9x" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <!-- Add this before the closing </body> tag -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const transparentCheckbox = document.querySelector('input[name="transparent_bg"]');
+        const bgColorInput = document.querySelector('input[name="bg_color"]');
+        
+        transparentCheckbox.addEventListener('change', function() {
+            bgColorInput.disabled = this.checked;
+            bgColorInput.style.opacity = this.checked ? '0.5' : '1';
+        });
+    });
+    </script>
+</body>
+</html>

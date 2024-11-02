@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyQR - Login</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_styles.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">MyQR</div>
+            <h1>Welcome to MyQR</h1>
+            <p>Generate and customize your QR codes with ease.</p>
+            <a href="{{ url_for('google.login') }}" class="login-button">
+                <img src="{{ url_for('static', filename='google-icon.svg') }}" alt="Google Icon">
+                Sign in with Google
+            </a>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 MyQR. All rights reserved.</p>
+            <p>Made with <span class="heart">&#10084;</span> by Mohammed Alsaleh</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/mohammed-alsaleh-326496318?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://x.com/iimoh9x" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
